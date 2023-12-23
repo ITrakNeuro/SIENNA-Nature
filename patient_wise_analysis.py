@@ -153,7 +153,7 @@ def process_patient(patient_id, tumor_train_flair, nontumor_train_flair, models)
     return patient_results
 # Load models
 models = {
-    "Model 1": load_model("/content/recheck122223.h5")
+    "Model 1": load_model("/content/SIENNA pre-trained.h5")
 }
 
 all_results = {}
