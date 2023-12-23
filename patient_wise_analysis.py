@@ -1,63 +1,26 @@
-
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import load_model, Sequential, Model
-from tensorflow.keras.layers import (
-    Input, InputLayer, Dense, Flatten, Conv2D, Activation,
-    BatchNormalization, MaxPooling2D, AveragePooling2D, Dropout
-)
-from tensorflow.keras.callbacks import ModelCheckpoint, LearningRateScheduler, TensorBoard
-from tensorflow.keras.optimizers import Adam, RMSprop
-from tensorflow.keras import datasets, layers, models
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import f1_score
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import os, cv2, random, pywt, scipy
-from skimage import io, exposure
-import shutil, pathlib
-from sklearn.utils import shuffle
-from keras.utils import to_categorical
-import imutils
-from os import listdir
-from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
-import pandas as pd
-
-import tensorflow as tf
-import keras
-import numpy as np
-import matplotlib
-import pandas as pd
+# ----- Core Libraries -----
+import os
 import cv2
-import skimage
-import sklearn
-import imutils
-import imblearn
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from tensorflow.keras.utils import to_categorical
+from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
 
-print(f"Tensorflow=={tf.__version__}")
-print(f"Keras=={keras.__version__}")
-print(f"NumPy=={np.__version__}")
-print(f"Matplotlib=={matplotlib.__version__}")
-print(f"Pandas=={pd.__version__}")
-print(f"OpenCV=={cv2.__version__}")
-print(f"Scikit-image=={skimage.__version__}")
-print(f"Scikit-learn=={sklearn.__version__}")
-print(f"Imutils=={imutils.__version__}")
-print(f"Imbalanced-learn=={imblearn.__version__}")
+# ----- Configuration Section -----
+# Paths
+tumor_train_flair = 'D:\Research\Research\classification1-20220830T050713Z-001\classification2\\tumor'
+nontumor_train_flair = 'D:\Research\Research\classification1-20220830T050713Z-001\classification2\\no tumor'
+model_path = "SIENNA pre-trained.h5"
 
-from google.colab import drive
-drive.mount('/content/drive')
+# Image processing parameters
+image_size = (240, 240)
+interpolation_method = cv2.INTER_CUBIC
 
-#path to tumor slices
-tumor_train_flair = '/content/drive/MyDrive/classification1/tumor/'
-#path to non-tumor slices
-nontumor_train_flair = '/content/drive/MyDrive/classification1/no tumor/'
-
+# ----- Function Definitions -----
 def PREMO(image, clip_limit=1.5, gamma=3.0):
     """
-    Pixel Redistribution Enhancement, Masking, Optimization(PREMO) for MRI intensity equalization
+    Pixel Redistribution Enhancement, Masking, Optimization (PREMO) for MRI intensity equalization.
     Args:
         image: numpy array
         clip_limit: pixel threshold to clip
@@ -94,7 +57,27 @@ def PREMO(image, clip_limit=1.5, gamma=3.0):
     out = cv2.cvtColor(out.astype(np.uint8), cv2.COLOR_GRAY2BGR)
     return out
 
+def load_models():
+    """ Load the pre-trained models. """
+    try:
+        print(model_path)
+        models = {
+            "Model 1": tf.keras.models.load_model(model_path)
+        }
+        return models
+    except Exception as e:
+        print(f"Error loading models: {e}")
+        return None
+
 def process_patient(patient_id, tumor_train_flair, nontumor_train_flair, models):
+    """
+    Process images for a given patient, predict using the models, and calculate metrics.
+    Args:
+        patient_id: Identifier for the patient.
+        tumor_train_flair: Path to tumor images.
+        nontumor_train_flair: Path to non-tumor images.
+        models: Dictionary of loaded models.
+    """
     x_test, y_test, z_test = [], [], []
     # Process tumor images
     for i in os.listdir(tumor_train_flair):
@@ -151,22 +134,28 @@ def process_patient(patient_id, tumor_train_flair, nontumor_train_flair, models)
             "F1 Score": f1
         }
     return patient_results
-# Load models
-models = {
-    "Model 1": load_model("/content/SIENNA pre-trained.h5")
-}
 
-all_results = {}
-for patient_id in range(1, 11):
-    patient_name = f"Patient-GBM{patient_id}"
-    all_results[patient_name] = process_patient(patient_name, tumor_train_flair, nontumor_train_flair, models)
 
-# Convert results to a DataFrame for display
-results_df = pd.DataFrame(all_results)
-# Set display options
-pd.set_option('display.max_colwidth', None)  # or use a large number instead of None
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
+# ----- Main Execution -----
+if __name__ == "__main__":
+    # Load models
+    models = load_models()
+    if models is None:
+        print("Failed to load models. Exiting.")
+        exit(1)
 
-# Display the DataFrame
-print(results_df)
+    # Process each patient
+    all_results = {}
+    for patient_id in range(1, 11):
+        patient_name = f"Patient-GBM{patient_id}"
+        all_results[patient_name] = process_patient(patient_name, tumor_train_flair, nontumor_train_flair, models)
+
+    # Convert results to a DataFrame for display
+    results_df = pd.DataFrame(all_results)
+    # Set display options
+    pd.set_option('display.max_colwidth', None) 
+    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
+
+    # Display the DataFrame
+    print(results_df)
