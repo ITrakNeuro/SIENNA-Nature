@@ -18,6 +18,5 @@ Python libraries and modules required are listed in requirements.txt.
 
 ### Source code for training and testing SIENNA:
 
-1. SIENNA.py: Defines the SIENNA architecture class.
-2. feature_extraction.py: Defines a convolutional neural network (CNN) model using Keras and TensorFlow. It includes hyperparameter tuning using Hyperas and Hyperopt.
-
+1. SIENNA pre-trained.h5: Pre-trained weights of SIENNA on clinical data. 
+2. patient_wise_analysis.py: Reads MRI images, applies preprocessing (including the patented PREMO method), loads a pre-trained model, and evaluates its performance on the test data.
