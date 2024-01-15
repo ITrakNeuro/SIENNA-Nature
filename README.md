@@ -16,7 +16,7 @@ Python libraries and modules required are listed in requirements.txt.
 
 ## SIENNA Architecture 
 
-### Source code for training and testing SIENNA:
+### Source code for testing SIENNA:
 
 1. SIENNA pre-trained.h5: Pre-trained weights of SIENNA on clinical data. 
 2. patient_wise_analysis.py: Reads MRI images, applies preprocessing (including the patented PREMO method), loads a pre-trained model, and evaluates its performance on the test data.
