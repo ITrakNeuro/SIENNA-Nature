@@ -61,7 +61,7 @@ During hyperparameter optimization, **loss, false positives (FP), and false nega
 
 - **Inductive Testing**: SIENNA maintains low training error despite label corruption, showcasing robust performance with noisy data and new unseen patient information.
 
-- **Transductive Testing**: Achieved over 90% average accuracy across three classification tasks, validated through 100 repeated random sub-sampling, indicating stable and consistent performance in handling clinical data.
+- **Transductive Testing**: Achieved over 90% average accuracy across three classification tasks, validated through 100 repeated random sub-sampling, indicating stable and consistent performance in handling clinical data. By not setting a random seed during the 100 repeated random sub-sampling, we ensured that each train-test split was different, allowing us to robustly assess the model's stability and consistent performance across varied shuffled datasets.
 
 - **Grad-CAM Analysis**: Applied Grad-CAM to visualize feature importance, with distinctive activation maps. GBM slices show concentrated regions of interest, while MET slices display more spatial spread, reflecting differences in tumor multiplicity and spatial patterns.
 
