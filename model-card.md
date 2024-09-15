@@ -80,8 +80,9 @@ During hyperparameter optimization, **loss, false positives (FP), and false nega
 
 - **Evaluation on Smaller Dataset (Clinical Dataset 1 - In-House Clinical Dataset)**: SIENNA’s performance was evaluated using a clinical dataset of 17 patients, covering glioblastoma multiforme, metastatic, and non-tumor slices. Evaluate through a 100 repeated random sub-sampling method, SIENNA achieved accuracies of 92% for Non-Tumor (SD=5.5%), 91% for GBM (SD=3.2%), and 93% for MET (SD=2.6%). Detailed assessments of True Positive (TP), True Negative (TN), False Positive (FP), and False Negative (FN), F1 score and AUROC further validated its robust performance.
 
-- **Evaluation on Larger Dataset (Clinical Dataset 2 - Cheng, Jun (2017). brain tumor dataset. figshare. Dataset. https://doi.org/10.6084/m9.figshare.1512427.v5)**: To test SIENNA’s ability to generalize on larger, more heterogeneous datasets, it was evaluated using a clinical brain tumor dataset of 3064 T1-contrast-enhanced images from 233 patients. SIENNA maintained accuracies ranges: 96.0% for Pituitary Tumors (SD=1.2%), 92.6% for Meningioma (SD=1.6%), and 95.3% for Glioma (SD=1.4%) across 100 random sub-samples. 
+- **Evaluation on Larger Dataset (Clinical Dataset 2 - Cheng, Jun (2017). brain tumor dataset. figshare. Dataset. https://doi.org/10.6084/m9.figshare.1512427.v5)**: To test SIENNA’s ability to generalize on larger, more heterogeneous datasets, it was evaluated using a clinical brain tumor dataset of 3064 T1-contrast-enhanced images from 233 patients. SIENNA maintained accuracies ranges: 96% for Pituitary Tumors (SD=1.2%), 92.6% for Meningioma (SD=1.6%), and 95.3% for Glioma (SD=1.4%) across 100 random sub-samples. 
 
+- **Evaluation on Higly Processed Public Dataset (BraTS 2020 - Multimodal Brain Tumor Segmentation Challenge (2020).https://www.med.upenn.edu/cbica/brats2020/data.html)**: SIENNA achieved 97% accuracy on highly processed datasets like BraTS for tumor identification.
 
 ## Hardware for Training
 - **Hardware Type:** NVIDIA GTX 1650 GPU boasting 4 GB of GPU RAM, Colab GPU
